@@ -53,7 +53,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"relative_url": {
-								"value": "@pipeline().parameters.source",
+								"value": "@pipeline().parameters.source2",
 								"type": "Expression"
 							}
 						}
