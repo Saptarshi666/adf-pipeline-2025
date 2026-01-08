@@ -1,5 +1,5 @@
 {
-	"name": "DelimitedText2",
+	"name": "Countriescsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "CountriesAzureBlobStorage1",
