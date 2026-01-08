@@ -1,0 +1,32 @@
+{
+	"name": "CountriesCS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CountriesAzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "6dec310f-9cf2-48df-9ed9-dbf2d2f1a38f",
+				"container": "saptarshicontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "value",
+				"type": "String"
+			}
+		]
+	}
+}

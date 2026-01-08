@@ -6,18 +6,94 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Countriescsv",
+						"referenceName": "CountriesCS",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "source1",
+					"description": "Import data from CountriesCS"
+				},
+				{
+					"dataset": {
+						"referenceName": "Sales1",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parquet1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          id as string,",
+				"          value as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1"
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          Region as string,",
+				"          Country as string,",
+				"          {Item Type} as string,",
+				"          {Sales Channel} as string,",
+				"          {Order Priority} as string,",
+				"          {Order Date} as string,",
+				"          {Order ID} as string,",
+				"          {Ship Date} as string,",
+				"          {Units Sold} as string,",
+				"          {Unit Price} as string,",
+				"          {Unit Cost} as string,",
+				"          {Total Revenue} as string,",
+				"          {Total Cost} as string,",
+				"          {Total Profit} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source1 filter(notEquals(id, \"AF\")) ~> filter1",
+				"filter1, source2 join(value == Country,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 cast(output(",
+				"          {Unit Price} as integer",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"cast1 derive(isMorethanMillion = greater(toInteger({Total Profit}), 1000000)) ~> derivedColumn1",
+				"derivedColumn1 aggregate(column1 = count()) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          value as string",
+				"     ),",
+				"     format: 'parquet',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
