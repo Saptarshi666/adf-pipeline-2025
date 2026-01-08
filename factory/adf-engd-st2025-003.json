@@ -1,0 +1,9 @@
+{
+	"name": "adf-engd-st2025-003",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "da6cbb87-34f8-43f1-8973-658e54819770",
+		"tenantId": "cc7df247-60ce-4a0f-9d75-704cf60efc64"
+	}
+}
